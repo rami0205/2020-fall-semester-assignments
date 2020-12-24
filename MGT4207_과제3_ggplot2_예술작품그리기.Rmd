@@ -1,0 +1,60 @@
+---
+title: "2016XXXX XXX"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+```{r}
+library(ggplot2)
+
+# 배경
+k = data.frame(x=c(0,0,100,100), y=c(0,100,100,0), Group=rep('G0', 4))
+r=200
+r1 = data.frame(x=runif(r)*100, y=runif(r)*100, Group=rep('R1', r))
+r2 = data.frame(x=runif(r)*100, y=runif(r)*100, Group=rep('R2', r))
+r3 = data.frame(x=runif(r)*100, y=runif(r)*100, Group=rep('R3', r))
+
+# 탑
+a = data.frame(x=c(30,50,70), y=c(10,90,10), Group=rep('G1', 3))
+b = data.frame(x=c(35,50,65), y=c(10,70,10), Group=rep('G2', 3))
+c = data.frame(x=c(47,50,53), y=c(21,10,21), Group=rep('G3', 3))
+d = data.frame(x=c(49,49,51,51), y=c(21,66,66,21), Group=rep('G4', 4))
+
+# 별
+s1 = data.frame(x=c(50,52,48), y=c(90,5*sqrt(3)+90,5*sqrt(3)+90), Group=rep('G5', 3))
+s2 = data.frame(x=c(50,52,48), y=c(90+6*sqrt(3),2*sqrt(3)+90,2*sqrt(3)+90), Group=rep('G6', 3))
+
+# 탑 선
+l1 = data.frame(x=(seq(15,80,5)+110)/4, y=seq(15,80,5), Group=paste0('L',seq(1,14)))
+l2 = data.frame(x=(seq(15,80,5)+130)/4, y=seq(15,80,5), Group=paste0('L',seq(1,14)))
+l3 = data.frame(x=(seq(15,80,5)-290)/-4, y=seq(15,80,5), Group=paste0('L',seq(17,30)))
+l4 = data.frame(x=(seq(15,80,5)-270)/-4, y=seq(15,80,5), Group=paste0('L',seq(17,30)))
+
+
+alba = rbind(k,r1,r2,r3,a,b,c,d,s1,s2)
+line = rbind(l1,l2,l3,l4)
+
+ggplot()+
+    geom_polygon(data=alba, aes(x=x, y=y, fill=Group), alpha=0.8)+
+    geom_line(data=line, aes(x=x, y=y, group=Group), col='#999999')+
+    annotate("text", x = 50, y = 37, label="A P P L I E D", color='#FFFFFF', size=4.5, family='serif')+
+    annotate("text", x = 50, y = 32, label="B U I S I N E S S", color='#FFFFFF', size=4.5, family='serif')+
+    annotate("text", x = 50, y = 27, label="S T A T I S T I C", color='#FFFFFF', size=4.7, family='serif')+
+    annotate("text", x = 50, y = 97, label="A+", color='#000000', size=2.8, fontface='bold')+
+    annotate("text", x = 88, y = 5, label="20161147최하람", color='#FFFF00', size=5, fontface='bold')+
+    # geom_point(data=random, aes(x=x, y=y, fill=Group), alpha=0.3)
+    scale_fill_manual(values=c('#000000','#FFFFFF','#33FF99','#FF99CC', # 여기까지 배경색
+                               '#3333FF','#FF0000','#993366','#990066','#FFCC00','#FFCC00'))+ # 여기서부터는 탑 색
+         theme(
+        text = element_blank(),
+        line = element_blank(),
+        title = element_blank(),
+        legend.position="none",
+        panel.border = element_blank(),
+        panel.background = element_blank())+
+    coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
+```
+
